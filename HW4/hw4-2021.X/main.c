@@ -32,6 +32,8 @@
 #pragma config PMDL1WAY = OFF // allow multiple reconfigurations
 #pragma config IOL1WAY = OFF // allow multiple reconfigurations
 
+void delay();
+
 int main() {
 
     __builtin_disable_interrupts(); // disable interrupts while initializing things
@@ -57,40 +59,58 @@ int main() {
     __builtin_enable_interrupts(); 
     
 
-    long int time;
+
     
     while (1) {
         // use _CP0_SET_COUNT(0) and _CP0_GET_COUNT() to test the PIC timing
         //time = _CP0_GET_COUNT();
         if(PORTBbits.RB4 == 0) {
-            _CP0_SET_COUNT(0);
-            time = _CP0_GET_COUNT();
-            LATAbits.LATA4 = 1;  //Turn LED ON
-            while(_CP0_GET_COUNT() - time < 12000000){
-                ;// do nothing for half a second
-            }
-            _CP0_SET_COUNT(0);
-            time = _CP0_GET_COUNT();
-            LATAbits.LATA4 = 0; // Turn LED OFF
-            while(_CP0_GET_COUNT() - time < 12000000){
-                ;// do nothing for half a second
-            }
-            _CP0_SET_COUNT(0);
-            time = _CP0_GET_COUNT();
-            LATAbits.LATA4 = 1;  //Turn LED ON
-            while(_CP0_GET_COUNT() - time < 12000000){
-                ;// do nothing for half a second
-            }
-            _CP0_SET_COUNT(0);
-            time = _CP0_GET_COUNT();
-            LATAbits.LATA4 = 0; // Turn LED OFF
-            while(_CP0_GET_COUNT() - time < 12000000){
-                ;// do nothing for half a second
-            }
+//            _CP0_SET_COUNT(0);
+//            time = _CP0_GET_COUNT();
+//            LATAbits.LATA4 = 1;  //Turn LED ON
+//            while(_CP0_GET_COUNT() - time < 12000000){
+//                ;// do nothing for half a second
+//            }
+//            _CP0_SET_COUNT(0);
+//            time = _CP0_GET_COUNT();
+//            LATAbits.LATA4 = 0; // Turn LED OFF
+//            while(_CP0_GET_COUNT() - time < 12000000){
+//                ;// do nothing for half a second
+//            }
+//            _CP0_SET_COUNT(0);
+//            time = _CP0_GET_COUNT();
+//            LATAbits.LATA4 = 1;  //Turn LED ON
+//            while(_CP0_GET_COUNT() - time < 12000000){
+//                ;// do nothing for half a second
+//            }
+//            _CP0_SET_COUNT(0);
+//            time = _CP0_GET_COUNT();
+//            LATAbits.LATA4 = 0; // Turn LED OFF
+//            while(_CP0_GET_COUNT() - time < 12000000){
+//                ;// do nothing for half a second
+//            }
+              LATAbits.LATA4 = 1;  //Turn LED ON
+              delay(); // do nothing for half a second
+              LATAbits.LATA4 = 0; // Turn LED OFF
+              delay(); // do nothing for half a second
+              LATAbits.LATA4 = 1;  //Turn LED ON
+              delay(); // do nothing for half a second
+              LATAbits.LATA4 = 0; // Turn LED OFF
+              delay(); // do nothing for half a second
         }
+       
         // remember the core timer runs at half the sysclk
         
         
 
     }
+}
+
+void delay(){
+            long int time;
+            _CP0_SET_COUNT(0);
+            time = _CP0_GET_COUNT();
+            while(_CP0_GET_COUNT() - time < 12000000){
+                ;// do nothing for half a second
+            }
 }
