@@ -1,6 +1,7 @@
 #include<xc.h>           // processor SFR definitions
 #include<sys/attribs.h>  // __ISR macro
 #include <stdio.h>
+#include <math.h>
 
 // DEVCFG0
 #pragma config DEBUG = OFF // disable debugging
@@ -55,7 +56,7 @@ int main() {
 
     // do your TRIS and LAT commands here
     TRISAbits.TRISA4 = 0;        // Set Pin 12 as an output.
-    LATAbits.LATA4 = 0;    // Set Pin as high so the LED turns off.  These pins sink current
+    LATAbits.LATA4 = 1;    // Set Pin as high so the LED turns off.  These pins sink current
     TRISBbits.TRISB4 = 1; //Set Pin connected to LED button as input
     
     U1RXRbits.U1RXR = 0b0001; // U1RX is B6
@@ -85,18 +86,35 @@ int main() {
         // use _CP0_SET_COUNT(0) and _CP0_GET_COUNT() to test the PIC timing
         //time = _CP0_GET_COUNT();
         if(PORTBbits.RB4 == 0) {
-              LATAbits.LATA4 = 1;  //Turn LED ON
-              delay(); // do nothing for half a second
-              LATAbits.LATA4 = 0; // Turn LED OFF
-              delay(); // do nothing for half a second
-              LATAbits.LATA4 = 1;  //Turn LED ON
-              delay(); // do nothing for half a second
-              LATAbits.LATA4 = 0; // Turn LED OFF
-              delay(); // do nothing for half a second
-              
-              sprintf(m,"Hello!\r\n"); 
-              WriteUART1(m);
-              
+            LATAbits.LATA4 = 1; //Turn LED ON
+            delay(); // do nothing for half a second
+            LATAbits.LATA4 = 0; // Turn LED OFF
+            delay(); // do nothing for half a second
+            LATAbits.LATA4 = 1; //Turn LED ON
+            delay(); // do nothing for half a second
+            LATAbits.LATA4 = 0; // Turn LED OFF
+            delay(); // do nothing for half a second
+            
+//             sprintf(m,"Hello!\r\n"); 
+//             WriteUART1(m);
+
+            double x[100], f[100], y[100];
+            int j;
+            y[0] = 0;
+            for (j = 1; j <= 100; j++) {
+                //x[j] = ((double) j) / 50.0;
+                //f[j] = 511 * sin(4.0 * M_PI * x[j]);
+                //m = (char)f[j];
+                if (j <= 50) {
+                    y[j] = y[j - 1] + 1;
+                } else if (j > 50) {
+                    y[j] = y[j - 1] - 1;
+                }
+                sprintf(m, "%f\r\n",  y[j]);
+                WriteUART1(m);
+            
+            }
+//            
         }
        
         // remember the core timer runs at half the sysclk
