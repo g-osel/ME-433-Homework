@@ -84,23 +84,25 @@ int main() {
     
     while (1) {
 
-//        for (j = 0; j <= 100; j++) {
-//            x[j] = ((double) j) / 100.0;
-//            f[j] = (511 * sin(4.0 * PI * x[j])) + 512;
-//            dataB[j] = (unsigned short) f[j];
-//
-//
-//            dataB[j] = dataB[j] << 2;
-//            config_bitsB = 0b1111;
-//            dataB[j] = dataB[j] | (config_bitsB << 12);
-//
-//        // write one byte over SPI1
-//
-//            LATAbits.LATA0 = 0; // bring CS low
-//            spi_io((dataB[j] >> 8)); // write the byte
-//            spi_io(dataB[j]);
-//            LATAbits.LATA0 = 1; // bring CS high
-//        }
+        for (j = 0; j <= 100; j++) {
+            x[j] = ((double) j) / 100.0;
+            f[j] = (511 * sin(4.0 * PI * x[j])) + 512;
+            dataB[j] = (unsigned short) f[j];
+
+
+            dataB[j] = dataB[j] << 2;
+            config_bitsB = 0b1111;
+            dataB[j] = dataB[j] | (config_bitsB << 12);
+
+        // write one byte over SPI1
+
+            LATAbits.LATA0 = 0; // bring CS low
+            spi_io((dataB[j] >> 8)); // write the byte
+            spi_io(dataB[j]);
+            LATAbits.LATA0 = 1; // bring CS high
+            
+            delay();
+        }
         
         y[0] = 0 ;
         for(i = 1; i<=100; i++) {

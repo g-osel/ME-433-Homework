@@ -108,6 +108,46 @@ void LCD_clearScreen(unsigned short color) {
 }
 
 // drawChar function
-
+void drawChar(unsigned short x, unsigned short y, unsigned short color, unsigned char letter){
+    int i, j;
+    int count1 = 0;
+    for (i=x; i < (5 + x); ++i){
+        unsigned char chr  = ASCII[letter - (0x20)][count1];
+        //int count2 = 0;
+        for (j=y; j < (8 + y); ++j){
+            if ((chr >> (j-y)) & 0b01){
+                LCD_drawPixel(i,j,color);
+            }
+            else{
+                LCD_drawPixel(i,j,BLUE);
+            }
+            //count2++;
+        } 
+        count1++;
+    }    
+}
 // drawString function
+void drawString(unsigned short x, unsigned short y, unsigned short color, unsigned char * m){
+    int  k = 0;
+    while(m[k]){
+        drawChar((x + (5 * k)), y, color, m[k]);
+        k++;
+    }
+}
 
+void drawBar(unsigned short x, unsigned short y, unsigned short color1, unsigned short color2, int num) {
+    int i, j;
+    //    int index[100];
+
+    for (i = 0; i < 100; i++) {
+
+        for (j = 0; j < 4; j++) {
+            if (i <= num) {
+                LCD_drawPixel(x + i, y+j, color1);
+            } 
+            else {
+                LCD_drawPixel(x + i, y+j, color2);
+            }
+        }
+    }
+}

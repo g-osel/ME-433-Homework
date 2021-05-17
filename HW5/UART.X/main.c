@@ -2,6 +2,7 @@
 #include<sys/attribs.h>  // __ISR macro
 #include <stdio.h>
 #include <math.h>
+#include "test.h"
 
 // DEVCFG0
 #pragma config DEBUG = OFF // disable debugging
@@ -98,19 +99,23 @@ int main() {
 //             sprintf(m,"Hello!\r\n"); 
 //             WriteUART1(m);
 
-            double x[100], f[100], y[100];
-            int j;
-            y[0] = 0;
-            for (j = 1; j <= 100; j++) {
-                //x[j] = ((double) j) / 50.0;
-                //f[j] = 511 * sin(4.0 * M_PI * x[j]);
-                //m = (char)f[j];
-                if (j <= 50) {
-                    y[j] = y[j - 1] + 1;
-                } else if (j > 50) {
-                    y[j] = y[j - 1] - 1;
-                }
-                sprintf(m, "%f\r\n",  y[j]);
+//            double x[100], f[100], y[100];
+//            int j;
+//            y[0] = 0;
+//            for (j = 1; j <= 100; j++) {
+//                //x[j] = ((double) j) / 50.0;
+//                //f[j] = 511 * sin(4.0 * M_PI * x[j]);
+//                //m = (char)f[j];
+//                if (j <= 50) {
+//                    y[j] = y[j - 1] + 1;
+//                } else if (j > 50) {
+//                    y[j] = y[j - 1] - 1;
+//                }
+            unsigned char letter = 'H';
+            //letter - (0x20)
+            unsigned char ts = ASCII[letter - (0x20)][0];
+            unsigned char edw = 0x5f;
+                sprintf(m, "%c\r\n",  ts);
                 WriteUART1(m);
             
             }
@@ -122,7 +127,7 @@ int main() {
         
 
     }
-}
+
 
 void delay(){
             long int time;

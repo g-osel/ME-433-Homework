@@ -1,0 +1,14 @@
+build/default/production/main.o: main.c i2c_master_noint.h UART.h \
+ ST7789.h font.h spi.h imu.h
+
+i2c_master_noint.h:
+
+UART.h:
+
+ST7789.h:
+
+font.h:
+
+spi.h:
+
+imu.h:

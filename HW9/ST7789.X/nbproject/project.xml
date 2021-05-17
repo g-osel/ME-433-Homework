@@ -14,6 +14,7 @@
             <make-dep-projects/>
             <sourceRootList>
                 <sourceRootElem>.</sourceRootElem>
+                <sourceRootElem>../../HW11/IMU.X</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>

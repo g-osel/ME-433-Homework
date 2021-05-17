@@ -1,149 +1,127 @@
-/* ************************************************************************** */
-/** Descriptive File Name
+#include<xc.h>           // processor SFR definitions
+#include<sys/attribs.h>  // __ISR macro
+#include <stdio.h>
+#include <math.h>
+#include "spi.h" // Include SPI library
+#include "ST7789.h"
+#include "font.h"
 
-  @Company
-    Company Name
+#define PI 3.14159265358979323846
+void delay();
+// DEVCFG0
+#pragma config DEBUG = OFF // disable debugging
+#pragma config JTAGEN = OFF // disable jtag
+#pragma config ICESEL = ICS_PGx1 // use PGED1 and PGEC1
+#pragma config PWP = OFF // disable flash write protect
+#pragma config BWP = OFF // disable boot write protect
+#pragma config CP = OFF // disable code protect
 
-  @File Name
-    filename.c
+// DEVCFG1
+#pragma config FNOSC = FRCPLL // use internal oscillator with pll
+#pragma config FSOSCEN = OFF // disable secondary oscillator
+#pragma config IESO = OFF // disable switching clocks
+#pragma config POSCMOD =  OFF// Internal RC
+#pragma config OSCIOFNC = OFF // disable clock output
+#pragma config FPBDIV = DIV_1 // divide sysclk freq by 1 for peripheral bus clock
+#pragma config FCKSM = CSDCMD // disable clock switch and FSCM
+#pragma config WDTPS = PS1048576 // use largest wdt
+#pragma config WINDIS = OFF // use non-window mode wdt
+#pragma config FWDTEN = OFF // wdt disabled
+#pragma config FWDTWINSZ = WINSZ_25 // wdt window at 25%
 
-  @Summary
-    Brief description of the file.
+// DEVCFG2 - get the sysclk clock to 48MHz from the 8MHz crystal
+#pragma config FPLLIDIV = DIV_2 // divide input clock to be in range 4-5MHz
+#pragma config FPLLMUL = MUL_24 // multiply clock after FPLLIDIV
+#pragma config FPLLODIV = DIV_2 // divide clock after FPLLMUL to get 48MHz
 
-  @Description
-    Describe the purpose of this file.
- */
-/* ************************************************************************** */
+// DEVCFG3
+#pragma config USERID = 0 // some 16bit userid, doesn't matter what
+#pragma config PMDL1WAY = OFF // allow multiple reconfigurations
+#pragma config IOL1WAY = OFF // allow multiple reconfigurations
 
-/* ************************************************************************** */
-/* ************************************************************************** */
-/* Section: Included Files                                                    */
-/* ************************************************************************** */
-/* ************************************************************************** */
+int main() {
 
-/* This section lists the other files that are included in this file.
- */
+    __builtin_disable_interrupts(); // disable interrupts while initializing things
 
-/* TODO:  Include other files here if needed. */
+    // set the CP0 CONFIG register to indicate that kseg0 is cacheable (0x3)
+    __builtin_mtc0(_CP0_CONFIG, _CP0_CONFIG_SELECT, 0xa4210583);
 
+    // 0 data RAM access wait states
+    BMXCONbits.BMXWSDRM = 0x0;
 
-/* ************************************************************************** */
-/* ************************************************************************** */
-/* Section: File Scope or Global Data                                         */
-/* ************************************************************************** */
-/* ************************************************************************** */
+    // enable multi vector interrupts
+    INTCONbits.MVEC = 0x1;
 
-/*  A brief description of a section can be given directly below the section
-    banner.
- */
+    // disable JTAG to get pins back
+    DDPCONbits.JTAGEN = 0;
 
-/* ************************************************************************** */
-/** Descriptive Data Item Name
-
-  @Summary
-    Brief one-line summary of the data item.
-    
-  @Description
-    Full description, explaining the purpose and usage of data item.
-    <p>
-    Additional description in consecutive paragraphs separated by HTML 
-    paragraph breaks, as necessary.
-    <p>
-    Type "JavaDoc" in the "How Do I?" IDE toolbar for more information on tags.
-    
-  @Remarks
-    Any additional remarks
- */
-int global_data;
+    // do your TRIS and LAT commands here
+    TRISAbits.TRISA4 = 0; // Set Pin 12 as an output.
+    LATAbits.LATA4 = 0; // Set Pin as low so the LED turns off.  These pins sink current
+    TRISBbits.TRISB4 = 1; //Set Pin connected to LED button as input
 
 
-/* ************************************************************************** */
-/* ************************************************************************** */
-// Section: Local Functions                                                   */
-/* ************************************************************************** */
-/* ************************************************************************** */
+    //    // I2C init for IO
+    //    i2c_master_setup();
+    //    unsigned char write_add = 0b01000000;
+    //    unsigned char regIODIRA = 0x00;
+    //    unsigned char regIODIRB = 0x01;
+    //    unsigned char valIODIRA = 0x00;
+    //    unsigned char valIODIRB = 0xFF;
+    //    
+    //    setPin(write_add, regIODIRA, valIODIRA); 
+    //    setPin(write_add, regIODIRB, valIODIRB); 
+    initSPI();
+    LCD_init();
 
-/*  A brief description of a section can be given directly below the section
-    banner.
- */
+    __builtin_enable_interrupts();
+    LCD_clearScreen(BLUE);
 
-/* ************************************************************************** */
 
-/** 
-  @Function
-    int ExampleLocalFunctionName ( int param1, int param2 ) 
+    float tstart, tend, FPS;
 
-  @Summary
-    Brief one-line description of the function.
+    char m[30];
+    int num = 0;
+    int i = 0;
+    unsigned short x = 28;
+    unsigned short y = 32;
+    unsigned short xf = 35;
+    unsigned short yf = 64;
+    unsigned short xBar = 28;
+    unsigned short yBar = 48;
 
-  @Description
-    Full description, explaining the purpose and usage of the function.
-    <p>
-    Additional description in consecutive paragraphs separated by HTML 
-    paragraph breaks, as necessary.
-    <p>
-    Type "JavaDoc" in the "How Do I?" IDE toolbar for more information on tags.
 
-  @Precondition
-    List and describe any required preconditions. If there are no preconditions,
-    enter "None."
+    while (1) {
 
-  @Parameters
-    @param param1 Describe the first parameter to the function.
-    
-    @param param2 Describe the second parameter to the function.
-
-  @Returns
-    List (if feasible) and describe the return values of the function.
-    <ul>
-      <li>1   Indicates an error occurred
-      <li>0   Indicates an error did not occur
-    </ul>
-
-  @Remarks
-    Describe any special behavior not described above.
-    <p>
-    Any additional remarks.
-
-  @Example
-    @code
-    if(ExampleFunctionName(1, 2) == 0)
-    {
-        return 3;
+        //LCD_drawPixel(28,32,WHITE);
+        // 
+        //drawChar(x,y,WHITE, 'H');
+        tstart = _CP0_GET_COUNT();
+        sprintf(m, "Hello World! %d   ", num);
+        drawString(x, y, WHITE, m);
+        tend = _CP0_GET_COUNT();
+        FPS = 24000000 / (tend - tstart) ;
+        sprintf(m, "FPS: %f", FPS);
+        drawString(xf, yf, WHITE, m);
+        drawBar(xBar, yBar, GREEN, WHITE, num);
+        num++;
+        if (num == 100) {
+            num = 00;
+        }
+        
+        LATAbits.LATA4 = 1; //Turn LED ON
+        delay(); // do nothing for half a second
+        LATAbits.LATA4 = 0; // Turn LED OFF
+        delay(); // do nothing for half a second
     }
- */
-static int ExampleLocalFunction(int param1, int param2) {
-    return 0;
 }
 
-
-/* ************************************************************************** */
-/* ************************************************************************** */
-// Section: Interface Functions                                               */
-/* ************************************************************************** */
-/* ************************************************************************** */
-
-/*  A brief description of a section can be given directly below the section
-    banner.
- */
-
-// *****************************************************************************
-
-/** 
-  @Function
-    int ExampleInterfaceFunctionName ( int param1, int param2 ) 
-
-  @Summary
-    Brief one-line description of the function.
-
-  @Remarks
-    Refer to the example_file.h interface header for function usage details.
- */
-int ExampleInterfaceFunction(int param1, int param2) {
-    return 0;
+void delay() {
+    long int time;
+    _CP0_SET_COUNT(0);
+    time = _CP0_GET_COUNT();
+    while (_CP0_GET_COUNT() - time < 2400000) {
+        ; // do nothing for 1/10th of a second
+    }
 }
 
-
-/* *****************************************************************************
- End of File
- */
