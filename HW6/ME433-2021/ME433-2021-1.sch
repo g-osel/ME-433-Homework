@@ -21875,7 +21875,7 @@ part number 2062-2P from STA</description>
 <part name="GND4" library="ME433-2021" deviceset="GND" device=""/>
 <part name="U$5" library="ME433-2021" deviceset="SNAP" device=""/>
 <part name="U$6" library="ME433-2021" deviceset="PUSH" device="" value="RESET"/>
-<part name="R2" library="ME433-2021" deviceset="R-US_" device="0207/10" package3d_urn="urn:adsk.eagle:package:23491/2" value="330"/>
+<part name="R2" library="ME433-2021" deviceset="R-US_" device="0207/10" package3d_urn="urn:adsk.eagle:package:23491/2" value="10k"/>
 <part name="C1" library="ME433-2021" deviceset="C-US" device="025-030X050" package3d_urn="urn:adsk.eagle:package:23631/1" value="0.1 uF"/>
 <part name="C2" library="ME433-2021" deviceset="C-US" device="025-030X050" package3d_urn="urn:adsk.eagle:package:23631/1" value="0.1 uF"/>
 <part name="C3" library="ME433-2021" deviceset="CPOL-US" device="B45181B" package3d_urn="urn:adsk.eagle:package:23320/1" value="10 uF"/>
@@ -21893,7 +21893,6 @@ part number 2062-2P from STA</description>
 <part name="GND10" library="ME433-2021" deviceset="GND" device=""/>
 <part name="U$7" library="ME433-2021" deviceset="ADACP2104" device=""/>
 <part name="GND11" library="ME433-2021" deviceset="GND" device=""/>
-<part name="P+5" library="ME433-2021" deviceset="+5V" device=""/>
 <part name="U$8" library="ME433-2021" deviceset="ST7789" device=""/>
 <part name="GND12" library="ME433-2021" deviceset="GND" device=""/>
 <part name="+3V9" library="ME433-2021" deviceset="+3V3" device=""/>
@@ -22098,9 +22097,6 @@ part number 2062-2P from STA</description>
 </instance>
 <instance part="GND11" gate="1" x="116.84" y="104.14" smashed="yes">
 <attribute name="VALUE" x="114.3" y="101.6" size="1.778" layer="96"/>
-</instance>
-<instance part="P+5" gate="1" x="116.84" y="119.38" smashed="yes">
-<attribute name="VALUE" x="114.3" y="114.3" size="1.778" layer="96" rot="R90"/>
 </instance>
 <instance part="U$8" gate="G$1" x="175.26" y="119.38" smashed="yes">
 <attribute name="NAME" x="182.88" y="127" size="1.27" layer="94"/>
@@ -22550,11 +22546,6 @@ part number 2062-2P from STA</description>
 <wire x1="38.1" y1="106.68" x2="38.1" y2="104.14" width="0.1524" layer="91"/>
 <wire x1="38.1" y1="104.14" x2="50.8" y2="104.14" width="0.1524" layer="91"/>
 </segment>
-<segment>
-<pinref part="P+5" gate="1" pin="+5V"/>
-<pinref part="U$7" gate="G$1" pin="4.5V"/>
-<wire x1="116.84" y1="116.84" x2="121.92" y2="116.84" width="0.1524" layer="91"/>
-</segment>
 </net>
 <net name="V+" class="0">
 <segment>
@@ -22877,11 +22868,6 @@ part number 2062-2P from STA</description>
 <wire x1="223.52" y1="10.16" x2="236.22" y2="10.16" width="0.1524" layer="91"/>
 <label x="236.22" y="10.16" size="1.778" layer="95"/>
 </segment>
-<segment>
-<pinref part="U$9" gate="G$1" pin="14.RCK"/>
-<wire x1="223.52" y1="20.32" x2="236.22" y2="20.32" width="0.1524" layer="91"/>
-<label x="236.22" y="20.32" size="1.778" layer="95"/>
-</segment>
 </net>
 <net name="D0" class="0">
 <segment>
@@ -22900,6 +22886,11 @@ part number 2062-2P from STA</description>
 <pinref part="U$1" gate="G$1" pin="3.A1"/>
 <wire x1="78.74" y1="60.96" x2="66.04" y2="60.96" width="0.1524" layer="91"/>
 <label x="66.04" y="60.96" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="U$9" gate="G$1" pin="7.D1"/>
+<wire x1="187.96" y1="30.48" x2="180.34" y2="30.48" width="0.1524" layer="91"/>
+<label x="180.34" y="30.48" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="D6" class="0">
@@ -22956,6 +22947,11 @@ part number 2062-2P from STA</description>
 <wire x1="78.74" y1="15.24" x2="66.04" y2="15.24" width="0.1524" layer="91"/>
 <label x="66.04" y="15.24" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="U$9" gate="G$1" pin="14.RCK"/>
+<wire x1="223.52" y1="20.32" x2="238.76" y2="20.32" width="0.1524" layer="91"/>
+<label x="238.76" y="20.32" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="WR" class="0">
 <segment>
@@ -23003,12 +22999,28 @@ part number 2062-2P from STA</description>
 <wire x1="114.3" y1="15.24" x2="129.54" y2="15.24" width="0.1524" layer="91"/>
 <label x="129.54" y="15.24" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="R6" gate="G$1" pin="1"/>
+<wire x1="190.5" y1="101.6" x2="190.5" y2="99.06" width="0.1524" layer="91"/>
+<wire x1="190.5" y1="99.06" x2="210.82" y2="99.06" width="0.1524" layer="91"/>
+<wire x1="210.82" y1="99.06" x2="210.82" y2="101.6" width="0.1524" layer="91"/>
+<pinref part="U$10" gate="G$1" pin="12.SCK"/>
+<wire x1="210.82" y1="101.6" x2="213.36" y2="101.6" width="0.1524" layer="91"/>
+<label x="210.82" y="101.6" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="B9" class="0">
 <segment>
 <pinref part="U$1" gate="G$1" pin="18.B9"/>
 <wire x1="114.3" y1="20.32" x2="124.46" y2="20.32" width="0.1524" layer="91"/>
 <label x="124.46" y="20.32" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="R7" gate="G$1" pin="1"/>
+<wire x1="182.88" y1="93.98" x2="213.36" y2="93.98" width="0.1524" layer="91"/>
+<pinref part="U$10" gate="G$1" pin="13.SDA"/>
+<wire x1="213.36" y1="93.98" x2="213.36" y2="96.52" width="0.1524" layer="91"/>
+<label x="208.28" y="93.98" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="D2" class="0">
@@ -23021,13 +23033,6 @@ part number 2062-2P from STA</description>
 <pinref part="U$9" gate="G$1" pin="17.D2"/>
 <wire x1="223.52" y1="35.56" x2="236.22" y2="35.56" width="0.1524" layer="91"/>
 <label x="236.22" y="35.56" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="N$8" class="0">
-<segment>
-<pinref part="U$9" gate="G$1" pin="7.D1"/>
-<wire x1="187.96" y1="30.48" x2="180.34" y2="30.48" width="0.1524" layer="91"/>
-<label x="180.34" y="30.48" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$13" class="0">
@@ -23097,24 +23102,6 @@ part number 2062-2P from STA</description>
 <label x="177.8" y="40.64" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$5" class="0">
-<segment>
-<pinref part="R6" gate="G$1" pin="1"/>
-<wire x1="190.5" y1="101.6" x2="190.5" y2="99.06" width="0.1524" layer="91"/>
-<wire x1="190.5" y1="99.06" x2="210.82" y2="99.06" width="0.1524" layer="91"/>
-<wire x1="210.82" y1="99.06" x2="210.82" y2="101.6" width="0.1524" layer="91"/>
-<pinref part="U$10" gate="G$1" pin="12.SCK"/>
-<wire x1="210.82" y1="101.6" x2="213.36" y2="101.6" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$6" class="0">
-<segment>
-<pinref part="R7" gate="G$1" pin="1"/>
-<wire x1="182.88" y1="93.98" x2="213.36" y2="93.98" width="0.1524" layer="91"/>
-<pinref part="U$10" gate="G$1" pin="13.SDA"/>
-<wire x1="213.36" y1="93.98" x2="213.36" y2="96.52" width="0.1524" layer="91"/>
-</segment>
-</net>
 <net name="BPWM" class="0">
 <segment>
 <pinref part="U$10" gate="G$1" pin="25.GPA4"/>
@@ -23122,8 +23109,9 @@ part number 2062-2P from STA</description>
 <label x="264.16" y="142.24" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="342.9" y1="132.08" x2="358.14" y2="132.08" width="0.1524" layer="91"/>
-<label x="358.14" y="132.08" size="1.778" layer="95"/>
+<pinref part="U$12" gate="G$1" pin="12.BPWM"/>
+<wire x1="342.9" y1="132.08" x2="365.76" y2="132.08" width="0.1524" layer="91"/>
+<label x="365.76" y="132.08" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="BDIR" class="0">
@@ -23133,8 +23121,9 @@ part number 2062-2P from STA</description>
 <label x="264.16" y="137.16" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="342.9" y1="127" x2="358.14" y2="127" width="0.1524" layer="91"/>
-<label x="358.14" y="127" size="1.778" layer="95"/>
+<pinref part="U$12" gate="G$1" pin="11.BDIR"/>
+<wire x1="342.9" y1="127" x2="365.76" y2="127" width="0.1524" layer="91"/>
+<label x="365.76" y="127" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="APWM" class="0">
@@ -23144,8 +23133,9 @@ part number 2062-2P from STA</description>
 <label x="264.16" y="132.08" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="342.9" y1="121.92" x2="358.14" y2="121.92" width="0.1524" layer="91"/>
-<label x="358.14" y="121.92" size="1.778" layer="95"/>
+<pinref part="U$12" gate="G$1" pin="10.APWM"/>
+<wire x1="342.9" y1="121.92" x2="365.76" y2="121.92" width="0.1524" layer="91"/>
+<label x="365.76" y="121.92" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="ADIR" class="0">
@@ -23155,8 +23145,9 @@ part number 2062-2P from STA</description>
 <label x="266.7" y="127" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="342.9" y1="116.84" x2="360.68" y2="116.84" width="0.1524" layer="91"/>
-<label x="360.68" y="116.84" size="1.778" layer="95"/>
+<pinref part="U$12" gate="G$1" pin="9.ADIR"/>
+<wire x1="342.9" y1="116.84" x2="365.76" y2="116.84" width="0.1524" layer="91"/>
+<label x="365.76" y="116.84" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$7" class="0">
